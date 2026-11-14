@@ -55,6 +55,9 @@ label{display:block;text-align:left;font-size:16px;color:var(--mute);margin-top:
 #music{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:var(--brown);color:#f6ead7;display:none;place-items:center;cursor:pointer}
 #music.show{display:grid}
 #music.on .p1,#music:not(.on) .p2{display:none}
+#autoscroll{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:45;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:var(--brown);color:#f6ead7;display:none;place-items:center;cursor:pointer}
+#autoscroll.show{display:grid}
+#autoscroll.on{background:var(--gold);color:#25160e}
 .js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s,transform .9s}
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.js .rv{opacity:1;transform:none}}
