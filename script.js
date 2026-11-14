@@ -9,7 +9,7 @@
   document.addEventListener('visibilitychange',function(){if(document.hidden&&playing){au.pause();btn.dataset.auto=1}else if(!document.hidden&&btn.dataset.auto){delete btn.dataset.auto;au.play()}});
   var g=new URLSearchParams(location.search).get('to');
   if(g){document.getElementById('guest').textContent=g;document.getElementById('nm').value=g}
-  var as=document.getElementById('autoscroll'),asOn=false,asRaf=0,asLast=0,asAcc=0,SPEED=45;
+  var as=document.getElementById('autoscroll'),asOn=false,asRaf=0,asLast=0,asAcc=0,SPEED=65;
   function asStep(t){
     if(!asOn)return;
     if(asLast){asAcc+=(t-asLast)*SPEED/1000;var n=Math.floor(asAcc);if(n>=1){window.scrollBy(0,n);asAcc-=n}}
@@ -25,7 +25,7 @@
   var cv=document.getElementById('cover');
   document.getElementById('open').onclick=function(){
     cv.classList.add('gone');document.body.classList.remove('lock');window.scrollTo(0,0);
-    btn.classList.add('show');as.classList.add('show');start();setTimeout(asStart,1500);setTimeout(function(){cv.style.display='none'},950);
+    btn.classList.add('show');as.classList.add('show');start();setTimeout(asStart,100);setTimeout(function(){cv.style.display='none'},950);
   };
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
