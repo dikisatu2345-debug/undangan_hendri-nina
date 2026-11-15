@@ -56,7 +56,7 @@
      Data disimpan di Google Sheet lewat Google Apps Script (lihat README.md).
      Isi GB_URL dengan URL Web App (berakhiran /exec). Kosong = fitur disembunyikan,
      RSVP tetap berjalan lewat WhatsApp. */
-  var GB_URL='https://script.google.com/macros/s/AKfycbxu8EH3c_WJtaa4H06Uxnt7Ml6Bxc_-OJ4lH81M5Ew3tc2RdWRTJPwC217Df-wRW12n6Q/exec';
+  var GB_URL='';
   var gbsec=document.getElementById('gbsec'),gbl=document.getElementById('gblist'),gbs=document.getElementById('gbsend'),gbst=document.getElementById('gbstat'),
       nmEl=document.getElementById('nm'),stEl=document.getElementById('st'),msEl=document.getElementById('ms'),hpEl=document.getElementById('web'),
       hint=document.getElementById('wahint'),sending=false;
@@ -68,11 +68,17 @@
     p.textContent=it.m||'';
     c.appendChild(b);c.appendChild(sm);c.appendChild(p);return c;
   }
-  function render(items){
+  var PAGE=10,MAXN=100,allItems=[],shown=PAGE;
+  function more(label,fn){var bt=document.createElement('button');bt.type='button';bt.className='btn o gmore';bt.textContent=label;bt.onclick=fn;gbl.appendChild(bt)}
+  function draw(){
     gbl.textContent='';
-    if(!items.length){var e=document.createElement('p');e.className='sub gb-empty';e.textContent='Belum ada ucapan. Jadilah yang pertama!';gbl.appendChild(e);return}
-    items.forEach(function(it){gbl.appendChild(card(it))});
+    if(!allItems.length){var e=document.createElement('p');e.className='sub gb-empty';e.textContent='Belum ada ucapan. Jadilah yang pertama!';gbl.appendChild(e);return}
+    allItems.slice(0,shown).forEach(function(it){gbl.appendChild(card(it))});
+    var rest=allItems.length-shown;
+    if(rest>0)more('Lihat lebih banyak ('+rest+' lagi)',function(){shown+=PAGE;draw()});
+    else if(allItems.length>PAGE)more('Tampilkan lebih sedikit',function(){shown=PAGE;draw();gbsec.scrollIntoView({behavior:'smooth',block:'start'})});
   }
+  function render(items){allItems=items.slice(0,MAXN);shown=PAGE;draw()}
   function load(){
     fetch(GB_URL+'?action=list').then(function(r){return r.json()}).then(function(j){render(j&&j.ok&&j.items?j.items:[])}).catch(function(){
       gbl.textContent='';var e=document.createElement('p');e.className='sub';e.textContent='Ucapan belum dapat dimuat. Silakan muat ulang halaman.';gbl.appendChild(e);
@@ -93,8 +99,9 @@
         .then(function(j){
           if(!j||!j.ok)throw new Error('fail');
           try{localStorage.setItem('gb_last',String(Date.now()))}catch(e){}
-          say('Terima kasih, konfirmasi dan ucapan Anda sudah terkirim.');
-          if(m){var em=gbl.querySelector('.gb-empty');if(em)gbl.removeChild(em);gbl.insertBefore(card({n:n,s:st,m:m,t:Date.now()}),gbl.firstChild)}
+          say('Terima kasih, konfirmasi dan ucapan Anda sudah terkirim. ');
+          if(m){var lk=document.createElement('a');lk.href='#gbsec';lk.textContent='Lihat ucapan';lk.style.cssText='color:var(--gold);font-weight:600';lk.onclick=function(ev){ev.preventDefault();gbsec.scrollIntoView({behavior:'smooth',block:'start'})};gbst.appendChild(lk)}
+          if(m){allItems.unshift({n:n,s:st,m:m,t:Date.now()});allItems=allItems.slice(0,MAXN);draw()}
           msEl.value='';
         })
         .catch(function(){say('Maaf, gagal mengirim. Silakan coba lagi atau kirim lewat WhatsApp.')})

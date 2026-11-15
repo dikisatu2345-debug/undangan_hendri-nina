@@ -5,6 +5,7 @@
  */
 var SHEET_NAME = 'Ucapan';
 var HEADERS = ['Waktu', 'Nama', 'Kehadiran', 'Ucapan', 'Sembunyikan (isi x)'];
+var MAX_TAMPIL = 100;   // jumlah ucapan terbaru yang dikirim ke halaman
 var STATUS_OK = ['Insya Allah hadir', 'Mohon maaf, belum bisa hadir', 'Masih ragu'];
 
 function sheet_() {
@@ -34,7 +35,7 @@ function clean_(v, max) {
 function doGet(e) {
   var rows = sheet_().getDataRange().getValues().slice(1);
   var items = [];
-  for (var i = rows.length - 1; i >= 0 && items.length < 200; i--) {
+  for (var i = rows.length - 1; i >= 0 && items.length < MAX_TAMPIL; i--) {
     var r = rows[i];
     if (!r[1] || !r[3]) continue;
     if (String(r[4]).toLowerCase() === 'x') continue;

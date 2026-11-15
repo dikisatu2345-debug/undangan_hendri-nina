@@ -64,7 +64,8 @@ label{display:block;text-align:left;font-size:16px;color:var(--mute);margin-top:
 
 [hidden]{display:none!important}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.gb{margin-top:18px;max-height:440px;overflow-y:auto;text-align:left;display:flex;flex-direction:column;gap:10px;padding-right:4px;-webkit-overflow-scrolling:touch}
+.gb{margin-top:18px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.gmore{align-self:center;margin-top:8px}
 .gc{padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
 .sec:nth-of-type(even) .gc{background:var(--card)}
 .gc b{display:block;font-size:19px;color:var(--gold);line-height:1.3}
