@@ -41,5 +41,64 @@
     bt.href='https://wa.me/'+WA+'?text='+encodeURIComponent(t);
   }});
   var gb=document.getElementById('gbtn');gb.onclick=function(){var bk=document.getElementById('bank');bk.hidden=!bk.hidden;gb.setAttribute('aria-expanded',!bk.hidden)};
-  document.querySelectorAll('[data-copy]').forEach(function(b){b.onclick=function(){try{navigator.clipboard.writeText(b.parentNode.querySelector('span').innerText);b.textContent='Tersalin'}catch(e){}}});
+  /* Salin nomor rekening (hanya angka), dengan cadangan untuk browser lama */
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    var label=b.textContent;
+    b.onclick=function(){
+      var t=b.getAttribute('data-copy');
+      function ok(){b.textContent='Tersalin';setTimeout(function(){b.textContent=label},2000)}
+      function fb(){var a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){b.textContent='Salin manual: '+t}document.body.removeChild(a)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb)}else fb();
+    };
+  });
+
+  /* ===== Ucapan & Doa (guestbook) =====
+     Data disimpan di Google Sheet lewat Google Apps Script (lihat README.md).
+     Isi GB_URL dengan URL Web App (berakhiran /exec). Kosong = fitur disembunyikan,
+     RSVP tetap berjalan lewat WhatsApp. */
+  var GB_URL='';
+  var gbsec=document.getElementById('gbsec'),gbl=document.getElementById('gblist'),gbs=document.getElementById('gbsend'),gbst=document.getElementById('gbstat'),
+      nmEl=document.getElementById('nm'),stEl=document.getElementById('st'),msEl=document.getElementById('ms'),hpEl=document.getElementById('web'),
+      hint=document.getElementById('wahint'),sending=false;
+  function ago(ts){var d=(Date.now()-ts)/1000;if(!ts||isNaN(d))return '';if(d<60)return 'baru saja';if(d<3600)return Math.floor(d/60)+' menit lalu';if(d<86400)return Math.floor(d/3600)+' jam lalu';return Math.floor(d/86400)+' hari lalu'}
+  function card(it){
+    var c=document.createElement('div'),b=document.createElement('b'),sm=document.createElement('small'),p=document.createElement('p');
+    c.className='gc';b.textContent=it.n||'Tamu';
+    sm.textContent=[it.s,ago(it.t)].filter(Boolean).join(' \u00b7 ');
+    p.textContent=it.m||'';
+    c.appendChild(b);c.appendChild(sm);c.appendChild(p);return c;
+  }
+  function render(items){
+    gbl.textContent='';
+    if(!items.length){var e=document.createElement('p');e.className='sub gb-empty';e.textContent='Belum ada ucapan. Jadilah yang pertama!';gbl.appendChild(e);return}
+    items.forEach(function(it){gbl.appendChild(card(it))});
+  }
+  function load(){
+    fetch(GB_URL+'?action=list').then(function(r){return r.json()}).then(function(j){render(j&&j.ok&&j.items?j.items:[])}).catch(function(){
+      gbl.textContent='';var e=document.createElement('p');e.className='sub';e.textContent='Ucapan belum dapat dimuat. Silakan muat ulang halaman.';gbl.appendChild(e);
+    });
+  }
+  function say(t){gbst.textContent=t}
+  if(GB_URL){
+    gbsec.hidden=false;gbs.hidden=false;hint.textContent='Atau kirim lewat WhatsApp:';load();
+    gbs.onclick=function(){
+      if(sending)return;
+      var n=nmEl.value.trim(),m=msEl.value.trim(),st=stEl.value;
+      if(!n){say('Mohon isi nama Anda terlebih dahulu.');nmEl.focus();return}
+      var last=0;try{last=+localStorage.getItem('gb_last')||0}catch(e){}
+      if(Date.now()-last<30000){say('Mohon tunggu sebentar sebelum mengirim lagi.');return}
+      sending=true;gbs.textContent='Mengirim...';say('');
+      fetch(GB_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({n:n,s:st,m:m,website:hpEl.value})})
+        .then(function(r){return r.json()})
+        .then(function(j){
+          if(!j||!j.ok)throw new Error('fail');
+          try{localStorage.setItem('gb_last',String(Date.now()))}catch(e){}
+          say('Terima kasih, konfirmasi dan ucapan Anda sudah terkirim.');
+          if(m){var em=gbl.querySelector('.gb-empty');if(em)gbl.removeChild(em);gbl.insertBefore(card({n:n,s:st,m:m,t:Date.now()}),gbl.firstChild)}
+          msEl.value='';
+        })
+        .catch(function(){say('Maaf, gagal mengirim. Silakan coba lagi atau kirim lewat WhatsApp.')})
+        .then(function(){sending=false;gbs.textContent='Kirim Konfirmasi & Ucapan'});
+    };
+  }
 })();

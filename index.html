@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Undangan Pernikahan Hendri &amp; Nina</title>
+<meta name="description" content="Undangan pernikahan Hendri &amp; Nina - Sabtu, 05 Desember 2026, Kediaman Mempelai Wanita, Kab. Bandung Barat">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Undangan Pernikahan Hendri &amp; Nina">
+<meta property="og:description" content="Sabtu, 05 Desember 2026 - Kediaman Mempelai Wanita, Kab. Bandung Barat. Merupakan kehormatan bagi kami apabila Anda berkenan hadir.">
+<meta property="og:url" content="https://undanganhendri-nina.vercel.app/">
+<meta property="og:image" content="https://undanganhendri-nina.vercel.app/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#25160e">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -48,7 +58,7 @@
 
 <section class="sec fl"><div class="rv">
   <div class="fr"><div class="ph" role="img" aria-label="Foto Hendri" style="background-image:url(gambar-05.jpg)"></div></div>
-  <h2 class="sc">Hendri Priadi</h2>
+  <h2 class="sc">Hendri Priyadi</h2>
   <p class="sub" style="margin-top:-6px">A.Md.Kep</p>
   <p>Putra pertama dari pasangan<br><b>Bapak Nana Supriyatna &amp; Ibu Neng Nuraeni</b></p>
   <p class="sc" style="margin:26px 0 20px">&amp;</p>
@@ -73,6 +83,7 @@
     <h3 class="sc" style="font-size:40px">Syukuran / Walimatul Ursy</h3>
     <p style="font-size:20px">10.00 WIB - selesai</p>
     <p style="margin-top:8px"><b>Kediaman Mempelai Pria</b><br>Kp. Rancasampih, RT 03/RW 09,<br>Kec. Sindangkerta,<br>Kab. Bandung Barat</p>
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kp.+Rancasampih+Sindangkerta+Kabupaten+Bandung+Barat">Lihat Peta</a>
   </div>
 
   <div class="dt" style="margin-top:34px"><span>Sabtu</span><b>05</b><span>Desember<br>2026</span></div>
@@ -102,18 +113,28 @@
 <section class="sec fl"><div class="rv">
   <h2 class="sc">Konfirmasi Kehadiran</h2>
   <p>Harap konfirmasikan kehadiran Anda sebelum 05 Desember 2026, dan sampaikan doa terbaik untuk kami.</p>
-  <label for="nm">Nama</label><input id="nm" autocomplete="name">
+  <label for="nm">Nama</label><input id="nm" autocomplete="name" maxlength="60">
   <label for="st">Kehadiran</label>
   <select id="st"><option>Insya Allah hadir</option><option>Mohon maaf, belum bisa hadir</option><option>Masih ragu</option></select>
-  <label for="ms">Ucapan &amp; Doa</label><textarea id="ms"></textarea>
+  <label for="ms">Ucapan &amp; Doa</label><textarea id="ms" maxlength="500"></textarea>
+  <div class="hp" aria-hidden="true"><label for="web">Jangan diisi</label><input id="web" tabindex="-1" autocomplete="off"></div>
+  <button class="btn" id="gbsend" type="button" hidden>Kirim Konfirmasi &amp; Ucapan</button>
+  <p class="sub" id="gbstat" role="status" aria-live="polite" style="min-height:1.7em;margin-top:8px"></p>
+  <p class="sub" id="wahint" style="margin-top:6px">Kirim konfirmasi lewat WhatsApp:</p>
   <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/6287728910068" data-wa="6287728910068">Kirim ke 0877-2891-0068</a><br><a class="btn o wa" target="_blank" rel="noopener" href="https://wa.me/6285703489437" data-wa="6285703489437">Kirim ke 0857-0348-9437</a>
+</div></section>
+
+<section class="sec fl" id="gbsec" hidden><div class="rv">
+  <h2 class="sc">Ucapan &amp; Doa</h2>
+  <p class="sub">Terima kasih atas doa dan ucapan terbaik dari Bapak/Ibu/Saudara/i.</p>
+  <div class="gb" id="gblist" aria-live="polite"></div>
 </div></section>
 
 <section class="sec fl"><div class="rv">
   <h2 class="sc">Wedding Gift</h2>
   <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Kami Menyediakan Cashless:</p>
   <button class="btn" id="gbtn" aria-expanded="false" aria-controls="bank">Kirim Hadiah</button>
-  <div class="acc" id="bank" hidden><span>BANK BJB<br>No. Rekening 014352925100<br>a.n. Hendri Priyadi</span><br><button class="btn o" data-copy style="font-size:15px;padding:5px 16px">Salin</button></div>
+  <div class="acc" id="bank" hidden><span>BANK BJB<br>No. Rekening 014352925100<br>a.n. Hendri Priyadi</span><br><button class="btn o" data-copy="014352925100" style="font-size:15px;padding:5px 16px">Salin No. Rekening</button></div>
   <div class="acc"><span>Alamat kirim kado:<br>Kp. Cihampelas, RT 003/RW 013,<br>Desa Cihampelas, Kec. Cihampelas,<br>Kab. Bandung Barat</span></div>
 </div></section>
 
