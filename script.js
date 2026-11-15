@@ -56,7 +56,7 @@
      Data disimpan di Google Sheet lewat Google Apps Script (lihat README.md).
      Isi GB_URL dengan URL Web App (berakhiran /exec). Kosong = fitur disembunyikan,
      RSVP tetap berjalan lewat WhatsApp. */
-  var GB_URL='';
+  var GB_URL='https://script.google.com/macros/s/AKfycbxu8EH3c_WJtaa4H06Uxnt7Ml6Bxc_-OJ4lH81M5Ew3tc2RdWRTJPwC217Df-wRW12n6Q/exec';
   var gbsec=document.getElementById('gbsec'),gbl=document.getElementById('gblist'),gbs=document.getElementById('gbsend'),gbst=document.getElementById('gbstat'),
       nmEl=document.getElementById('nm'),stEl=document.getElementById('st'),msEl=document.getElementById('ms'),hpEl=document.getElementById('web'),
       hint=document.getElementById('wahint'),sending=false;
