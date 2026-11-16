@@ -59,7 +59,7 @@
   var GB_URL='https://script.google.com/macros/s/AKfycbwCO4XVYM_lklhUI--9aBEmhS3IFDiYG439JDFRvMIKkiqBZz52QzmV4czmOmw0aPjsBA/exec';
   var gbsec=document.getElementById('gbsec'),gbl=document.getElementById('gblist'),gbs=document.getElementById('gbsend'),gbst=document.getElementById('gbstat'),
       nmEl=document.getElementById('nm'),stEl=document.getElementById('st'),msEl=document.getElementById('ms'),hpEl=document.getElementById('web'),
-      hint=document.getElementById('wahint'),sending=false;
+      wafb=document.getElementById('wafb'),hint=document.getElementById('wahint'),sending=false;
   function ago(ts){var d=(Date.now()-ts)/1000;if(!ts||isNaN(d))return '';if(d<60)return 'baru saja';if(d<3600)return Math.floor(d/60)+' menit lalu';if(d<86400)return Math.floor(d/3600)+' jam lalu';return Math.floor(d/86400)+' hari lalu'}
   function card(it){
     var c=document.createElement('div'),b=document.createElement('b'),sm=document.createElement('small'),p=document.createElement('p');
@@ -86,7 +86,7 @@
   }
   function say(t){gbst.textContent=t}
   if(GB_URL){
-    gbsec.hidden=false;gbs.hidden=false;hint.textContent='Atau kirim lewat WhatsApp:';load();
+    gbsec.hidden=false;gbs.hidden=false;wafb.hidden=true;hint.textContent='Jika gagal mengirim, kirim konfirmasi lewat WhatsApp:';load();
     gbs.onclick=function(){
       if(sending)return;
       var n=nmEl.value.trim(),m=msEl.value.trim(),st=stEl.value;
@@ -104,7 +104,7 @@
           if(m){allItems.unshift({n:n,s:st,m:m,t:Date.now()});allItems=allItems.slice(0,MAXN);draw()}
           msEl.value='';
         })
-        .catch(function(){say('Maaf, gagal mengirim. Silakan coba lagi atau kirim lewat WhatsApp.')})
+        .catch(function(){say('Maaf, gagal mengirim. Silakan coba lagi atau gunakan WhatsApp di bawah.');wafb.hidden=false})
         .then(function(){sending=false;gbs.textContent='Kirim Konfirmasi & Ucapan'});
     };
   }
